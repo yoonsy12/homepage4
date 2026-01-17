@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나의 학습 계획표</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 600px;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #5a67d8;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #718096;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .input-section {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            color: #4a5568;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #5a67d8;
+        }
+
+        .subject-colors {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .color-option {
+            position: relative;
+        }
+
+        .color-option input[type="radio"] {
+            display: none;
+        }
+
+        .color-label {
+            display: block;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .color-option input[type="radio"]:checked + .color-label {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .math { background: #f56565; }
+        .korean { background: #48bb78; }
+        .english { background: #4299e1; }
+        .science { background: #ed8936; }
+        .social { background: #9f7aea; }
+        .art { background: #ed64a6; }
+        .music { background: #38b2ac; }
+        .etc { background: #718096; }
+
+        .add-btn {
+            width: 100%;
+            padding: 14px;
+            background: #5a67d8;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 10px;
+        }
+
+        .add-btn:hover {
+            background: #4c51bf;
+        }
+
+        .todo-list {
+            list-style: none;
+        }
+
+        .todo-item {
+            background: white;
+            border-left: 5px solid;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: transform 0.2s;
+        }
+
+        .todo-item:hover {
+            transform: translateX(5px);
+        }
+
+        .todo-item.completed {
+            opacity: 0.6;
+        }
+
+        .todo-item.completed .todo-text {
+            text-decoration: line-through;
+            color: #a0aec0;
+        }
+
+        .checkbox {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .todo-content {
+            flex: 1;
+        }
+
+        .todo-subject {
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .todo-text {
+            color: #2d3748;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .delete-btn {
+            background: #fc8181;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.3s;
+            flex-shrink: 0;
+        }
+
+        .delete-btn:hover {
+            background: #f56565;
+        }
+
+        .stats {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .stats-text {
+            color: #4a5568;
+            font-size: 14px;
+        }
+
+        .stats-number {
+            color: #5a67d8;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #a0aec0;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .reset-btn {
+            width: 100%;
+            padding: 10px;
+            background: #e53e3e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 20px;
+        }
+
+        .reset-btn:hover {
+            background: #c53030;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 나의 학습 계획표</h1>
+        <p class="subtitle">오늘의 학습 목표를 세워보세요!</p>
+
+        <div class="stats">
+            <span class="stats-text">전체 <span class="stats-number" id="totalCount">0</span>개 | 완료 <span class="stats-number" id="completedCount">0</span>개</span>
+        </div>
+
+        <div class="input-section">
+            <div class="input-group">
+                <label for="todoInput">할 일</label>
+                <input type="text" id="todoInput" placeholder="예: 수학 문제집 10쪽 풀기">
+            </div>
+
+            <div class="input-group">
+                <label>과목</label>
+                <div class="subject-colors">
+                    <div class="color-option">
+                        <input type="radio" name="subject" id="math" value="수학" checked>
+                        <label for="math" class="color-label math">수학</label>
+                    </div>
+                    <div class="color-option">
+                        <input type="radio" name="subject" id="korean" value="국어">
+                        <label for="korean" class="color-label korean">국어</label>
+                    </div>
+                    <div class="color-option">
+                        <input type="radio" name="subject" id="english" value="영어">
+                        <label for="english" class="color-label english">영어</label>
+                    </div>
+                    <div class="color-option">
+                        <input type="radio" name="subject" id="science" value="과학">
+                        <label for="science" class="color-label science">과학</label>
+                    </div>
+                    <div class="color-option">
+                        <input type="radio" name="subject" id="social" value="사회">
+                        <label for="social" class="color-label social">사회</label>
+                    </div>
+                    <div class="color-option">
+                        <input type="radio" name="subject" id="art" value="미술">
+                        <label for="art" class="color-label art">미술</label>
+                    </div>
+                    <div class="color-option">
+                        <input type="radio" name="subject" id="music" value="음악">
+                        <label for="music" class="color-label music">음악</label>
+                    </div>
+                    <div class="color-option">
+                        <input type="radio" name="subject" id="etc" value="기타">
+                        <label for="etc" class="color-label etc">기타</label>
+                    </div>
+                </div>
+            </div>
+
+            <button class="add-btn" onclick="addTodo()">➕ 할 일 추가하기</button>
+        </div>
+
+        <ul class="todo-list" id="todoList"></ul>
+
+        <button class="reset-btn" onclick="resetAllData()">🗑️ 모든 데이터 초기화</button>
+    </div>
+
+    <script>
+        let todos = [];
+
+        const subjectColors = {
+            '수학': '#f56565',
+            '국어': '#48bb78',
+            '영어': '#4299e1',
+            '과학': '#ed8936',
+            '사회': '#9f7aea',
+            '미술': '#ed64a6',
+            '음악': '#38b2ac',
+            '기타': '#718096'
+        };
+
+        // localStorage에서 데이터 불러오기
+        function loadTodos() {
+            const saved = localStorage.getItem('studentTodos');
+            if (saved) {
+                try {
+                    todos = JSON.parse(saved);
+                } catch (e) {
+                    console.error('데이터 불러오기 실패:', e);
+                    todos = [];
+                }
+            }
+        }
+
+        // localStorage에 데이터 저장하기
+        function saveTodos() {
+            localStorage.setItem('studentTodos', JSON.stringify(todos));
+        }
+
+        function addTodo() {
+            const input = document.getElementById('todoInput');
+            const text = input.value.trim();
+            
+            if (!text) {
+                alert('할 일을 입력해주세요!');
+                return;
+            }
+
+            const selectedSubject = document.querySelector('input[name="subject"]:checked').value;
+
+            const todo = {
+                id: Date.now(),
+                text: text,
+                subject: selectedSubject,
+                completed: false
+            };
+
+            todos.push(todo);
+            input.value = '';
+            saveTodos();
+            renderTodos();
+        }
+
+        function toggleTodo(id) {
+            const todo = todos.find(t => t.id === id);
+            if (todo) {
+                todo.completed = !todo.completed;
+                saveTodos();
+                renderTodos();
+            }
+        }
+
+        function deleteTodo(id) {
+            todos = todos.filter(t => t.id !== id);
+            saveTodos();
+            renderTodos();
+        }
+
+        function resetAllData() {
+            if (confirm('정말로 모든 할 일을 삭제하시겠습니까?')) {
+                todos = [];
+                saveTodos();
+                renderTodos();
+                alert('모든 데이터가 삭제되었습니다!');
+            }
+        }
+
+        function renderTodos() {
+            const list = document.getElementById('todoList');
+            const totalCount = document.getElementById('totalCount');
+            const completedCount = document.getElementById('completedCount');
+
+            if (todos.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">✨</div>
+                        <p>아직 할 일이 없어요.<br>학습 계획을 세워보세요!</p>
+                    </div>
+                `;
+            } else {
+                list.innerHTML = todos.map(todo => `
+                    <li class="todo-item ${todo.completed ? 'completed' : ''}" style="border-left-color: ${subjectColors[todo.subject]}">
+                        <input type="checkbox" class="checkbox" ${todo.completed ? 'checked' : ''} onchange="toggleTodo(${todo.id})">
+                        <div class="todo-content">
+                            <div class="todo-subject" style="background: ${subjectColors[todo.subject]}">${todo.subject}</div>
+                            <div class="todo-text">${todo.text}</div>
+                        </div>
+                        <button class="delete-btn" onclick="deleteTodo(${todo.id})">삭제</button>
+                    </li>
+                `).join('');
+            }
+
+            totalCount.textContent = todos.length;
+            completedCount.textContent = todos.filter(t => t.completed).length;
+        }
+
+        // Enter 키로 추가하기
+        document.getElementById('todoInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addTodo();
+            }
+        });
+
+        // 페이지 로드 시 데이터 불러오기
+        loadTodos();
+        renderTodos();
+    </script>
+</body>
+</html>
